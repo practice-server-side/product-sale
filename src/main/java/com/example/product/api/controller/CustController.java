@@ -6,10 +6,7 @@ import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -19,6 +16,11 @@ import java.net.URI;
 @RequestMapping("project/v1/")
 public class CustController {
     private final CustRepository custRepository;
+
+    @GetMapping("/bread")
+    public String TestBread(){
+        return "Bread";
+    }
 
     @PostMapping("/cust")
     public ResponseEntity<?> custJoin(@RequestBody RequestCustJoinDto request) {
