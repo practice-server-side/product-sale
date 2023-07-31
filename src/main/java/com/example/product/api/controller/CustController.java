@@ -17,11 +17,6 @@ import java.net.URI;
 public class CustController {
     private final CustRepository custRepository;
 
-    @GetMapping("/bread")
-    public String TestBread(){
-        return "Bread";
-    }
-
     @PostMapping("/cust")
     public ResponseEntity<?> custJoin(@RequestBody RequestCustJoinDto request) {
 
