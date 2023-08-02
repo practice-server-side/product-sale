@@ -16,7 +16,7 @@ public class ErrorDetails {
     private String errorCode;
     private String errorMessage;
     private String path;
-    private LocalDateTime timeStamp;
+    private String timeStamp;
 
 //    public ErrorDetails(int status, String errorCode, String errorMessage, String path, LocalDateTime timeStamp) {
 //        super();

@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 @AllArgsConstructor
-public class MallRegisterResponseDto {
+@Builder
+public class MallInfoResponseDto {
     private Long mallId;
+    private String mallKey;
+    private String clientKey;
 }

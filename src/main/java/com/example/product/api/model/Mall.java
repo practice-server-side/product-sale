@@ -22,7 +22,7 @@ public class Mall {
     @Column
     private String mallKey;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "custId")
     private Cust cust;
 }
