@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseCustInfoDto {
+public class CustInfoResponseDto {
     private String userName;
     private String uesrPhone;
 }

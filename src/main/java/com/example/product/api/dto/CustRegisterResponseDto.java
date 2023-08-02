@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ResponseCustJoinDto {
+public class CustRegisterResponseDto {
     private Long custId;
 }

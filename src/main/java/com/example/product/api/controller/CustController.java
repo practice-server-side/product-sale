@@ -1,8 +1,8 @@
 package com.example.product.api.controller;
 
-import com.example.product.api.dto.RequestCustJoinDto;
-import com.example.product.api.dto.ResponseCustInfoDto;
-import com.example.product.api.dto.ResponseCustJoinDto;
+import com.example.product.api.dto.CustRegisterRequestDto;
+import com.example.product.api.dto.CustInfoResponseDto;
+import com.example.product.api.dto.CustRegisterResponseDto;
 import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.common.exception.NotFoundException;
@@ -28,7 +28,7 @@ public class CustController {
                 .orElseThrow(() -> new NotFoundException("C01", messageSource.getMessage("C01")));
 
         return ResponseEntity.ok(
-                ResponseCustInfoDto.builder()
+                CustInfoResponseDto.builder()
                         .userName(cust.getUserName())
                         .uesrPhone(cust.getUserPhone())
                         .build()
@@ -36,7 +36,7 @@ public class CustController {
     }
 
     @PostMapping
-    public ResponseEntity<?> custJoin(@RequestBody RequestCustJoinDto request) {
+    public ResponseEntity<?> custRegister(@RequestBody CustRegisterRequestDto request) {
 
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
 
@@ -48,7 +48,7 @@ public class CustController {
         custRepository.save(newCust);
 
         return ResponseEntity.created(selfLink).body(
-                ResponseCustJoinDto.builder()
+                CustRegisterResponseDto.builder()
                         .custId(newCust.getCustId())
                         .build()
         );
