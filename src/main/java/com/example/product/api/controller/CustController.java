@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,6 +44,7 @@ public class CustController {
         Cust newCust = Cust.builder()
                 .userName(request.getUserName()) //TODO : 복호화 가능한 암호화
                 .userPhone(request.getUserPhone()) //TODO : 복호화 가능한 암호화
+                .clientKey(UUID.randomUUID().toString())
                 .build();
 
         custRepository.save(newCust);
