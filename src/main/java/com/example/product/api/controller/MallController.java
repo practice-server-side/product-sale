@@ -9,6 +9,7 @@ import com.example.product.api.repository.CustRepository;
 import com.example.product.api.repository.MallRepository;
 import com.example.product.common.exception.BadRequestException;
 import com.example.product.common.exception.NotFoundException;
+import com.example.product.common.exception.UnAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class MallController {
                 .orElseThrow(() -> new NotFoundException("M01", messageSource.getMessage("M01")));
 
         if (!mall.getCust().getCustId().equals(custId)) {
-            throw new BadRequestException("M02", messageSource.getMessage("M02")); //TODO : 권한 예외 클래스 만들기
+            throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
         }
 
         return ResponseEntity.ok(
