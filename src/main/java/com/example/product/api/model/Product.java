@@ -16,8 +16,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @Column
     private String productName;
 
+    @Column
     private String productPrice;
 
     @ManyToOne

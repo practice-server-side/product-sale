@@ -18,4 +18,7 @@ public class Cust {
 
     @Column
     private String userPhone;
+
+    @Column
+    private String clientKey;
 }

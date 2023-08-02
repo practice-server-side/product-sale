@@ -1,8 +1,8 @@
 package com.example.product.api.controller;
 
-import com.example.product.api.dto.RequestCustJoinDto;
-import com.example.product.api.dto.ResponseCustInfoDto;
-import com.example.product.api.dto.ResponseCustJoinDto;
+import com.example.product.api.dto.CustRegisterRequestDto;
+import com.example.product.api.dto.CustInfoResponseDto;
+import com.example.product.api.dto.CustRegisterResponseDto;
 import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.common.exception.NotFoundException;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class CustController {
                 .orElseThrow(() -> new NotFoundException("C01", messageSource.getMessage("C01")));
 
         return ResponseEntity.ok(
-                ResponseCustInfoDto.builder()
+                CustInfoResponseDto.builder()
                         .userName(cust.getUserName())
                         .uesrPhone(cust.getUserPhone())
                         .build()
@@ -36,19 +37,20 @@ public class CustController {
     }
 
     @PostMapping
-    public ResponseEntity<?> custJoin(@RequestBody RequestCustJoinDto request) {
+    public ResponseEntity<?> custRegister(@RequestBody CustRegisterRequestDto request) {
 
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
 
         Cust newCust = Cust.builder()
                 .userName(request.getUserName()) //TODO : 복호화 가능한 암호화
                 .userPhone(request.getUserPhone()) //TODO : 복호화 가능한 암호화
+                .clientKey(UUID.randomUUID().toString())
                 .build();
 
         custRepository.save(newCust);
 
         return ResponseEntity.created(selfLink).body(
-                ResponseCustJoinDto.builder()
+                CustRegisterResponseDto.builder()
                         .custId(newCust.getCustId())
                         .build()
         );

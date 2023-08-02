@@ -1,6 +1,8 @@
 package com.example.product.common.exception.handler;
 
+import com.example.product.common.exception.BadRequestException;
 import com.example.product.common.exception.NotFoundException;
+import com.example.product.common.exception.UnAuthorizationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +31,40 @@ public class GlobalExceptionHandler {
                         .errorCode(ex.getErrorCode())
                         .errorMessage(ex.getMessage())
                         .path(request.getRequestURI())
-                        .timeStamp(LocalDateTime.now())
+                        .timeStamp(LocalDateTime.now().toString())
                         .build(),
                 HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({ BadRequestException.class })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<ErrorDetails> handleExceptionInternal(
+            BadRequestException ex, HttpServletRequest request) {
+
+        return new ResponseEntity<>(
+                ErrorDetails.builder()
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .errorCode(ex.getErrorCode())
+                        .errorMessage(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .timeStamp(LocalDateTime.now().toString())
+                        .build(),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ UnAuthorizationException.class })
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    protected ResponseEntity<ErrorDetails> handleExceptionInternal(
+            UnAuthorizationException ex, HttpServletRequest request) {
+
+        return new ResponseEntity<>(
+                ErrorDetails.builder()
+                        .status(HttpStatus.UNAUTHORIZED.value())
+                        .errorCode(ex.getErrorCode())
+                        .errorMessage(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .timeStamp(LocalDateTime.now().toString())
+                        .build(),
+                HttpStatus.UNAUTHORIZED);
+    }
 }

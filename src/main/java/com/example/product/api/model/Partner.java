@@ -16,13 +16,14 @@ public class Partner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long partnerId;
 
+    @Column
     private String partnerName;
 
+    @Column
     private String partnerPhone;
 
+    @Column
     private String partnerRepresentative;
-
-    private String partnerKey;
 
     @ManyToOne
     @JoinColumn(name = "mallId")
