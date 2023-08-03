@@ -1,0 +1,25 @@
+server:
+  port: 8000
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/PRODUCT_SALE?useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      show-sql: true
+      format_sql: true
+
+  jackson:
+    time-zone: Asia/Seoul
+    serialization:
+      write-dates-as-timestamps: false
+  messages:
+    basename: classpath:/messages/message
+    encoding: UTF-8
+    cache-duration:
+      seconds: -1
