@@ -7,7 +7,6 @@ import com.example.product.api.model.Cust;
 import com.example.product.api.model.Mall;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.api.repository.MallRepository;
-import com.example.product.common.exception.BadRequestException;
 import com.example.product.common.exception.NotFoundException;
 import com.example.product.common.exception.UnAuthorizationException;
 import lombok.RequiredArgsConstructor;
