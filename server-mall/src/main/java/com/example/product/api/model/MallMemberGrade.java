@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MallMemberGrade {
+public class MallMemberGrade extends CommonDate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gradeNo;

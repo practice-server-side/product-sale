@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Product extends CommonDate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;

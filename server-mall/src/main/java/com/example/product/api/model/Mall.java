@@ -5,13 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Mall {
+public class Mall extends CommonDate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mallId;
@@ -25,4 +28,5 @@ public class Mall {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "custId")
     private Cust cust;
+
 }

@@ -31,6 +31,7 @@ public class MallController {
      */
     @GetMapping
     public ResponseEntity<?> custMalls() {
+
         return ResponseEntity.ok("");
     }
 
