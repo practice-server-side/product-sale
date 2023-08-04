@@ -26,6 +26,17 @@ public class MallController {
     private final CustRepository custRepository;
     private final MessageSourceAccessor messageSource;
 
+    /**
+     *  고객 몰 리스트 조회
+     */
+    @GetMapping
+    public ResponseEntity<?> custMalls() {
+        return ResponseEntity.ok("");
+    }
+
+    /**
+     *  몰 상세 조회
+     */
     @GetMapping("/{mallId}")
     public ResponseEntity<?> mallInfo(
             @RequestParam("custId") Long custId,
@@ -47,6 +58,9 @@ public class MallController {
         );
     }
 
+    /**
+     *  몰 등록
+     */
     @PostMapping
     public ResponseEntity<?> mallRegister(
             @RequestParam("custId") Long custId,
