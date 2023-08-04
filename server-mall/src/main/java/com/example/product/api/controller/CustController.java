@@ -22,6 +22,9 @@ public class CustController {
     private final CustRepository custRepository;
     private final MessageSourceAccessor messageSource;
 
+    /**
+     *  고객 정보 조회
+     */
     @GetMapping("/{custId}")
     public ResponseEntity<?> custInfo(@PathVariable("custId") Long custId) { //TODO : 권한처리하기
 
@@ -36,6 +39,9 @@ public class CustController {
         );
     }
 
+    /**
+     *  고객 회원 가입
+     */
     @PostMapping
     public ResponseEntity<?> custRegister(@RequestBody CustRegisterRequestDto request) {
 

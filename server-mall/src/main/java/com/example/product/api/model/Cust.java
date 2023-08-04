@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cust {
+public class Cust extends CommonDate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long custId;

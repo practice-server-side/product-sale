@@ -6,26 +6,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import java.util.List;
+
 @Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Partner extends CommonDate{
+public class MallMember extends CommonDate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partnerId;
+    private Long memberNo;
 
     @Column
-    private String partnerName;
+    private String memberId;
 
-    @Column
-    private String partnerPhone;
-
-    @Column
-    private String partnerRepresentative;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mallId")
     private Mall mall;
+
+    @OneToMany(mappedBy = "mallMember")
+    private List<MallMemberGrade> mallMemberGrades;
+
+    @OneToMany(mappedBy = "mallMember")
+    private List<MallMemberGroup> mallMemberGroups;
 }

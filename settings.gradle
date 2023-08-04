@@ -1,2 +1,3 @@
 rootProject.name = 'product'
-
+include 'server-mall'
+include 'server-oauth'

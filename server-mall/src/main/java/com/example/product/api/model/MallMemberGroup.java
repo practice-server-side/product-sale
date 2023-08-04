@@ -6,23 +6,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-@Builder
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class Product extends CommonDate{
+@NoArgsConstructor
+@Builder
+public class MallMemberGroup extends CommonDate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long groupNo;
 
     @Column
-    private String productName;
+    private String groupName;
 
-    @Column
-    private String productPrice;
-
-    @ManyToOne
-    @JoinColumn(name = "partnerId")
-    private Partner partner;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberNo")
+    private MallMember mallMember;
 }
