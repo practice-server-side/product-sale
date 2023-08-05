@@ -9,7 +9,12 @@ import org.springframework.data.jpa.domain.Specification;
 public class MallsSpecification {
     public static Specification<Mall> getMallSpecification(CustMallsPagingRequestDto requestDto) {
         Specification<Mall> specifications = Specification.where(null);
-        //TODO : 커스트 아이디 추가
+
+        Long custId = requestDto.getCustId();
+        specifications = specifications.and(
+                (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.join("cust").get("custId"), custId )
+        );
+
         return specifications;
     }
 }
