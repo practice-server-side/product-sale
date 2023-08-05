@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("project/v1/mall")
+@RequestMapping("/server-mall/v1/mall")
 public class MallController {
     private final MallRepository mallRepository;
     private final CustRepository custRepository;
