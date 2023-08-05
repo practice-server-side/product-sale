@@ -77,6 +77,7 @@ public class MallController {
         return ResponseEntity.ok(
                 MallInfoResponseDto.builder()
                         .mallId(mall.getMallId())
+                        .mallName(mall.getMallName())
                         .mallKey(mall.getMallKey())
                         .clientKey(mall.getCust().getClientKey())
                         .build()
