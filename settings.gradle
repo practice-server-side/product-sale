@@ -1,3 +1,5 @@
 rootProject.name = 'product'
+include 'server-zuul'
+include 'server-discovery'
 include 'server-mall'
 include 'server-oauth'

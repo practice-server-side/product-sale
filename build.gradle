@@ -38,19 +38,3 @@ subprojects {
 		useJUnitPlatform()
 	}
 }
-
-project('server-mall') {
-	dependencies {
-
-	}
-}
-
-project('server-oauth') {
-	dependencies {
-		// 자바 JWT 라이브러리
-		implementation 'io.jsonwebtoken:jjwt:0.9.1'
-		annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-		// XML 문서와 Java 객체 간 매핑을 자동화
-		implementation 'javax.xml.bind:jaxb-api:2.3.1'
-	}
-}
