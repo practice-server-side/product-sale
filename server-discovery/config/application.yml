@@ -10,10 +10,11 @@ eureka:
     hostname: 127.0.0.1
     preferIpAddress: true
   client:
-    registerWithEureka: false
+    registerWithEureka: falseㅌ
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://localhost:8080/eureka
       enabled: true
   server:
     enable-self-preservation: false
+    eviction-interval-timer-in-ms: 5000

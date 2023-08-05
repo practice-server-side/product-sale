@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("project/v1/cust")
+@RequestMapping("/server-mall/v1/cust")
 public class CustController {
     private final CustRepository custRepository;
     private final MessageSourceAccessor messageSource;
