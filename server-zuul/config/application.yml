@@ -18,3 +18,12 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:8080/eureka
       enabled: true
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway

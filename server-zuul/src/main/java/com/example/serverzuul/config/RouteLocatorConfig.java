@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RouteLocatorConfig {
-
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route("server-mall-route", p -> p.path("/server-mall/v1/**")
+                .route("server-mall", p -> p.path("/server-mall/v1/**")
                         .uri("http://localhost:8000"))
-
                 .build();
     }
 
