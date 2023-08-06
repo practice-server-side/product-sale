@@ -1,11 +1,11 @@
 package com.example.product.api.controller;
 
+import com.example.common.exception.NotFoundException;
 import com.example.product.api.dto.CustRegisterRequestDto;
 import com.example.product.api.dto.CustInfoResponseDto;
 import com.example.product.api.dto.CustRegisterResponseDto;
 import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
-import com.example.product.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.ResponseEntity;

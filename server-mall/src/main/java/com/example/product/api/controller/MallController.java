@@ -1,13 +1,13 @@
 package com.example.product.api.controller;
 
+import com.example.common.exception.NotFoundException;
+import com.example.common.exception.UnAuthorizationException;
 import com.example.product.api.dto.*;
 import com.example.product.api.model.Cust;
 import com.example.product.api.model.Mall;
 import com.example.product.api.model.specification.MallsSpecification;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.api.repository.MallRepository;
-import com.example.product.common.exception.NotFoundException;
-import com.example.product.common.exception.UnAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;

@@ -1,23 +1,23 @@
-package com.example.product.common.exception;
+package com.example.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.UNAUTHORIZED)
-public class UnAuthorizationException extends RuntimeException {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class BadRequestException extends RuntimeException {
     private final String errorCode;
 
-    public UnAuthorizationException(String errorCode, String message) {
+    public BadRequestException(String errorCode, String message) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public UnAuthorizationException(String message, Throwable cause) {
+    public BadRequestException(String message, Throwable cause) {
         super(message, cause);
         this.errorCode = "";
     }
 
-    public UnAuthorizationException(UnAuthorizationException e) {
+    public BadRequestException(BadRequestException e) {
         super(e.getMessage());
         this.errorCode = e.getErrorCode();
     }
