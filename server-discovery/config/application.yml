@@ -10,7 +10,7 @@ eureka:
     hostname: 127.0.0.1
     preferIpAddress: true
   client:
-    registerWithEureka: falseㅌ
+    registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://localhost:8080/eureka

@@ -1,0 +1,6 @@
+spring:
+  messages:
+    basename: classpath:/messages/message
+    encoding: UTF-8
+    cache-duration:
+      seconds: -1

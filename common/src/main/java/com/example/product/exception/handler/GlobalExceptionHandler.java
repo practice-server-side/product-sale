@@ -1,8 +1,8 @@
-package com.example.product.common.exception.handler;
+package com.example.product.exception.handler;
 
-import com.example.product.common.exception.BadRequestException;
-import com.example.product.common.exception.NotFoundException;
-import com.example.product.common.exception.UnAuthorizationException;
+import com.example.product.exception.BadRequestException;
+import com.example.product.exception.NotFoundException;
+import com.example.product.exception.UnAuthorizationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

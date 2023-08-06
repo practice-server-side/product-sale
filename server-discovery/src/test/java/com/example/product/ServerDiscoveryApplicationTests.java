@@ -1,10 +1,10 @@
-package com.example.serveroauth;
+package com.example.product;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ServerOauthApplicationTests {
+class ServerDiscoveryApplicationTests {
 
     @Test
     void contextLoads() {

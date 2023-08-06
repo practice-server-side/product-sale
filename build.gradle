@@ -13,7 +13,6 @@ subprojects {
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'java'
-
 	sourceCompatibility = '17'
 
 	repositories {
@@ -21,6 +20,8 @@ subprojects {
 	}
 
 	dependencies {
+
+
 		implementation 'org.springframework.boot:spring-boot-starter'
 		implementation 'mysql:mysql-connector-java:8.0.32'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
