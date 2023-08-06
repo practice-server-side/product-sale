@@ -1,7 +1,7 @@
 package com.example.product.api.controller;
 
-import com.example.common.exception.NotFoundException;
-import com.example.common.exception.UnAuthorizationException;
+import com.example.product.exception.NotFoundException;
+import com.example.product.exception.UnAuthorizationException;
 import com.example.product.api.dto.*;
 import com.example.product.api.model.Cust;
 import com.example.product.api.model.Mall;

@@ -1,4 +1,4 @@
-package com.example.common.config;
+package com.example.product.config;
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor()).addPathPatterns("/**");
     }
 
-
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
@@ -55,7 +54,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ReloadableResourceBundleMessageSource m = messageSource();
         return new MessageSourceAccessor(m);
     }
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

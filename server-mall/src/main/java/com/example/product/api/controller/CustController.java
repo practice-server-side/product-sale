@@ -1,6 +1,6 @@
 package com.example.product.api.controller;
 
-import com.example.common.exception.NotFoundException;
+import com.example.product.exception.NotFoundException;
 import com.example.product.api.dto.CustRegisterRequestDto;
 import com.example.product.api.dto.CustInfoResponseDto;
 import com.example.product.api.dto.CustRegisterResponseDto;
