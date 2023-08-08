@@ -7,26 +7,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Partner extends CommonDate {
+public class Cust extends CommonDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partnerId;
+    private Long custId;
 
     @Column
-    private String partnerName;
+    private String loginId;
 
     @Column
-    private String partnerPhone;
+    private String loginPassword;
 
     @Column
-    private String partnerRepresentative;
+    private String userName;
 
-    @ManyToOne
-    @JoinColumn(name = "mallId")
-    private Mall mall;
+    @Column
+    private String userPhone;
+
+    @Column
+    private String clientKey;
 }

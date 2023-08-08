@@ -1,4 +1,4 @@
-package com.example.product.api.model;
+package com.example.product.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
