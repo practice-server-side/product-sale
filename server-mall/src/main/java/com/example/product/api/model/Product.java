@@ -1,5 +1,6 @@
 package com.example.product.api.model;
 
+import com.example.product.model.CommonDate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product extends CommonDate{
+public class Product extends CommonDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;

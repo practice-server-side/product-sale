@@ -11,8 +11,10 @@ public class RouteLocatorConfig {
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route("server-mall", p -> p.path("/server-mall/v1/**")
+                .route("server-mall", p -> p.path("/api/server-mall/v1/**")
                         .uri("http://localhost:8000"))
+                .route("server-oauth", p -> p.path("/api/server-oauth/v1/**")
+                        .uri("http://localhost:8001"))
                 .build();
     }
 
