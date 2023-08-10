@@ -24,10 +24,10 @@ public class ApiAuthenticationProvider implements AuthenticationManager {
         String loginPassword = (String) authentication.getCredentials();
 
         CustomUserDetails user = (CustomUserDetails) customUserDetailsService.loadUserByUsername(loginId);
-        if (!passwordEncoder.matches(user.getPassword(), loginPassword)) {
+        if (!passwordEncoder.matches(loginPassword, user.getPassword())) {
             throw new IllegalAccessError();
         }
 
-        return new UsernamePasswordAuthenticationToken(loginId, null, user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(loginId, user.getCustId(), user.getAuthorities());
     }
 }

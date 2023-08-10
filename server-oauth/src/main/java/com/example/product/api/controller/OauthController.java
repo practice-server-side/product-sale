@@ -2,8 +2,11 @@ package com.example.product.api.controller;
 
 import com.example.product.api.dto.CustRegisterRequestDto;
 import com.example.product.api.dto.LoginRequestDto;
+import com.example.product.api.dto.LoginResponseDto;
 import com.example.product.api.model.Cust;
+import com.example.product.api.model.CustSession;
 import com.example.product.api.repository.CustRepository;
+import com.example.product.api.repository.CustSessionRepository;
 import com.example.product.config.ApiAuthenticationProvider;
 import com.example.product.exception.UnAuthorizationException;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,8 @@ public class OauthController {
     private final ApiAuthenticationProvider authenticationManager;
     private final CustRepository custRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustSessionRepository custSessionRepository;
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto request) {
@@ -41,9 +46,20 @@ public class OauthController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            return ResponseEntity.ok("세션 리턴");
+            CustSession custSession = CustSession.builder()
+                    .custId((Long) authentication.getCredentials())
+                    .session("TODO : randomStr")
+                    .build();
+
+            custSessionRepository.save(custSession);
+
+            return ResponseEntity.ok(
+                    LoginResponseDto.builder()
+                            .session(custSession.getSession())
+                            .build()
+            );
         } catch (AuthenticationException e) {
-            throw new UnAuthorizationException("", ""); //TODO : 예외문구
+            throw new UnAuthorizationException("C02", "C02");
         }
     }
 
