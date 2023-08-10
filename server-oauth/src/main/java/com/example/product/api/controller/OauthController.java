@@ -44,7 +44,7 @@ public class OauthController {
                 .custId((Long) authentication.getCredentials())
                 .build();
 
-        session.setAttribute("user", sessionValue);
+        session.setAttribute(session.getId(), sessionValue);
 
         System.out.println("session.getId() = " + session.getId());
 
