@@ -7,6 +7,7 @@ import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.config.ApiAuthenticationProvider;
 import com.example.product.dto.CurrentCust;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -33,8 +31,12 @@ public class OauthController {
     private final CustRepository custRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpSession session) {
+    public ResponseEntity<?> login(
+            @RequestBody LoginRequestDto request,
+            HttpSession session,
+            HttpServletRequest httpRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getLoginPassword()));
 
@@ -44,9 +46,7 @@ public class OauthController {
                 .custId((Long) authentication.getCredentials())
                 .build();
 
-        session.setAttribute(session.getId(), sessionValue);
-
-        System.out.println("session.getId() = " + session.getId());
+        session.setAttribute(httpRequest.changeSessionId(), sessionValue);
 
         return ResponseEntity.ok(
                 LoginResponseDto.builder()
@@ -55,9 +55,7 @@ public class OauthController {
         );
     }
 
-    /**
-     *  고객 회원 가입
-     */
+
     @PostMapping("/join")
     public ResponseEntity<?> custRegister(@RequestBody CustRegisterRequestDto request) {
 
@@ -75,4 +73,5 @@ public class OauthController {
 
         return ResponseEntity.created(selfLink).build();
     }
+
 }
