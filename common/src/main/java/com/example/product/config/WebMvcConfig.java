@@ -1,28 +1,36 @@
 package com.example.product.config;
 
 
+import com.example.product.repository.CustSessionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import java.util.List;
 import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
+
     @Value("${spring.messages.basename}")
     String messagesBasename;
     @Value("${spring.messages.encoding}")
     String messagesEncoding;
     @Value("${spring.messages.cache-duration.seconds}")
     int messagesCacheSeconds;
+
+    private final CustSessionRepository custSessionRepository;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -65,6 +73,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new CurrentUserAnnotationResolver(custSessionRepository));
     }
 
 }

@@ -8,6 +8,8 @@ import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.config.ApiAuthenticationProvider;
 import com.example.product.dto.CurrentCust;
+import com.example.product.model.CustSession;
+import com.example.product.repository.CustSessionRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -31,9 +32,9 @@ import java.util.UUID;
 @RequestMapping("/api/server-oauth/v1")
 public class OauthController {
     private final ApiAuthenticationProvider authenticationManager;
+    private final CustSessionRepository custSessionRepository;
     private final CustRepository custRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RedisTemplate<String, Object> redisTemplate;
 
     @PostMapping("/join")
     public ResponseEntity<?> custRegister(
@@ -57,28 +58,23 @@ public class OauthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
-            @User CurrentCust cust,
-            @RequestBody LoginRequestDto request,
-            HttpSession session,
-            HttpServletRequest servletRequest) {
-
-        System.out.println("cust = " + cust);
+            @RequestBody LoginRequestDto request) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getLoginPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        CurrentCust sessionValue = CurrentCust.builder()
+        CustSession custSession = CustSession.builder()
+                .sessionId(UUID.randomUUID().toString())
                 .custId((Long) authentication.getCredentials())
                 .build();
 
-        session.setAttribute(servletRequest.changeSessionId(), sessionValue);
-        session.setMaxInactiveInterval(1800);
+        custSessionRepository.save(custSession);
 
         return ResponseEntity.ok(
                 LoginResponseDto.builder()
-                        .session(session.getId())
+                        .session(custSession.getSessionId())
                         .build()
         );
     }

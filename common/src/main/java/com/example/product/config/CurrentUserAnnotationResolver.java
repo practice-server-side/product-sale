@@ -2,18 +2,23 @@ package com.example.product.config;
 
 import com.example.product.annotation.User;
 import com.example.product.dto.CurrentCust;
-import jakarta.servlet.http.HttpSession;
+import com.example.product.model.CustSession;
+import com.example.product.repository.CustSessionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import java.util.*;
+
 @RequiredArgsConstructor
+@Configuration
 public class CurrentUserAnnotationResolver implements HandlerMethodArgumentResolver {
 
-    private final HttpSession httpSession;
+    private final CustSessionRepository custSessionRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -27,6 +32,16 @@ public class CurrentUserAnnotationResolver implements HandlerMethodArgumentResol
 
         String sessionId = webRequest.getHeader("Authorization");
 
-        return (CurrentCust) httpSession.getAttribute(sessionId);
+        CustSession custSession = CustSession.builder().build();
+
+
+        if (Objects.nonNull(sessionId)) {
+            custSession = custSessionRepository.findById(sessionId)
+                    .orElse(CustSession.builder().build());
+        }
+
+        return CurrentCust.builder()
+                .custId(custSession.getCustId())
+                .build();
     }
 }
