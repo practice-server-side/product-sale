@@ -14,6 +14,12 @@ public class Cust extends CommonDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long custId;
 
+    @Column(unique = true)
+    private String loginId;
+
+    @Column
+    private String loginPassword;
+
     @Column
     private String userName;
 
@@ -21,5 +27,5 @@ public class Cust extends CommonDate {
     private String userPhone;
 
     @Column
-    private String clientKey;
+    private String custKey;
 }

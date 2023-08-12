@@ -1,5 +1,6 @@
 package com.example.product.api.controller;
 
+import com.example.product.annotation.CurrentCust;
 import com.example.product.exception.NotFoundException;
 import com.example.product.exception.UnAuthorizationException;
 import com.example.product.api.dto.*;
@@ -9,6 +10,7 @@ import com.example.product.api.model.specification.MallsSpecification;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.api.repository.MallRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,7 @@ import java.net.URI;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/server-mall/v1/mall")
@@ -31,7 +34,7 @@ public class MallController {
     private final MessageSourceAccessor messageSource;
 
     /**
-     * 고객 몰 리스트 조회
+     * 회원 몰 리스트 조회
      */
     @GetMapping
     public ResponseEntity<?> custMalls(@ModelAttribute CustMallsPagingRequestDto request) {
@@ -64,13 +67,13 @@ public class MallController {
      */
     @GetMapping("/{mallId}")
     public ResponseEntity<?> mallInfo(
-            @RequestParam("custId") Long custId,
+            @CurrentCust com.example.product.dto.CurrentCust currentCust,
             @PathVariable("mallId") Long mallId) {
 
         Mall mall = mallRepository.findById(mallId)
                 .orElseThrow(() -> new NotFoundException("M01", messageSource.getMessage("M01")));
 
-        if (!mall.getCust().getCustId().equals(custId)) {
+        if (!mall.getCust().getCustId().equals(currentCust.getCustId())) {
             throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
         }
 
@@ -79,7 +82,7 @@ public class MallController {
                         .mallId(mall.getMallId())
                         .mallName(mall.getMallName())
                         .mallKey(mall.getMallKey())
-                        .clientKey(mall.getCust().getClientKey())
+                        .custKey(mall.getCust().getCustKey())
                         .build()
         );
     }

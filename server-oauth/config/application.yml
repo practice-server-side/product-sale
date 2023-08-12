@@ -15,6 +15,12 @@ spring:
       dialect: org.hibernate.dialect.MySQL8Dialect
       show-sql: true
       format_sql: true
+  redis:
+    host: 127.0.0.1
+    password: 1234
+    port: 6379
+  session:
+    store-type: redis
 
   jackson:
     time-zone: Asia/Seoul
