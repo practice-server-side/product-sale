@@ -1,0 +1,9 @@
+rootProject.name = 'product'
+include ':common'
+project(':common').projectDir = new File(settingsDir, '../common')
+include ':server-zuul'
+include ':server-discovery'
+include ':server-mall'
+include ':server-oauth'
+include ':server-partner'
+

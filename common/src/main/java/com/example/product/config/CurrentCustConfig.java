@@ -1,6 +1,6 @@
 package com.example.product.config;
 
-import com.example.product.annotation.CurrentCust;
+import com.example.product.annotation.Cust;
 import com.example.product.model.CustSession;
 import com.example.product.repository.CustSessionRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class CurrentCustConfig implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().isAssignableFrom(com.example.product.dto.CurrentCust.class) &&
-                parameter.hasParameterAnnotation(CurrentCust.class);
+                parameter.hasParameterAnnotation(Cust.class);
     }
 
     @Override
