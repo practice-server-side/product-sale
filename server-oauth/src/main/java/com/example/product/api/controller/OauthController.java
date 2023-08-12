@@ -47,6 +47,7 @@ public class OauthController {
                 .build();
 
         session.setAttribute(httpRequest.changeSessionId(), sessionValue);
+        session.setMaxInactiveInterval(1800);
 
         return ResponseEntity.ok(
                 LoginResponseDto.builder()
