@@ -31,13 +31,18 @@ public class OauthController {
     private final CustRepository custRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/information")
+    public ResponseEntity<?> information() {
+        return ResponseEntity.ok("");
+    }
+
     @PostMapping("/join")
-    public ResponseEntity<?> custRegister(
+    public ResponseEntity<?> join(
             @RequestBody CustRegisterRequestDto request) {
 
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
 
-        Cust newCust = Cust.builder()
+        Cust newData = Cust.builder()
                 .loginId(request.getLoginId())
                 .loginPassword(passwordEncoder.encode(request.getLoginPassword()))
                 .userName(request.getUserName())
@@ -45,7 +50,7 @@ public class OauthController {
                 .custKey(UUID.randomUUID().toString())
                 .build();
 
-        custRepository.save(newCust);
+        custRepository.save(newData);
 
         return ResponseEntity.created(selfLink).build();
     }
@@ -60,16 +65,16 @@ public class OauthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        CustSession custSession = CustSession.builder()
+        CustSession newData = CustSession.builder()
                 .sessionId(UUID.randomUUID().toString())
                 .custId((Long) authentication.getCredentials())
                 .build();
 
-        custSessionRepository.save(custSession);
+        custSessionRepository.save(newData);
 
         return ResponseEntity.ok(
                 LoginResponseDto.builder()
-                        .session(custSession.getSessionId())
+                        .session(newData.getSessionId())
                         .build()
         );
     }

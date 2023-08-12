@@ -1,6 +1,6 @@
 package com.example.product.api.model.specification;
 
-import com.example.product.api.dto.CustMallsPagingRequestDto;
+import com.example.product.api.dto.cust.CustMallsPagingRequestDto;
 import com.example.product.api.model.Mall;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;

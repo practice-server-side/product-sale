@@ -1,5 +1,6 @@
-package com.example.product.api.dto;
+package com.example.product.api.dto.cust;
 
+import com.example.product.api.dto.ResponseListDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

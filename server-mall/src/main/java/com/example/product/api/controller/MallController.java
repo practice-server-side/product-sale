@@ -1,9 +1,13 @@
 package com.example.product.api.controller;
 
 import com.example.product.annotation.CurrentCust;
+import com.example.product.api.dto.cust.CustMallsPagingRequestDto;
+import com.example.product.api.dto.cust.CustMallsPagingResponseDto;
+import com.example.product.api.dto.mall.MallInfoResponseDto;
+import com.example.product.api.dto.mall.MallRegisterRequestDto;
+import com.example.product.api.dto.mall.MallRegisterResponseDto;
 import com.example.product.exception.NotFoundException;
 import com.example.product.exception.UnAuthorizationException;
-import com.example.product.api.dto.*;
 import com.example.product.api.model.Cust;
 import com.example.product.api.model.Mall;
 import com.example.product.api.model.specification.MallsSpecification;
@@ -41,15 +45,15 @@ public class MallController {
 
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getPageSize(), Sort.Direction.DESC, request.getSort());
         Specification<Mall> specification = MallsSpecification.getMallSpecification(request);
-        Page<Mall> mallList = mallRepository.findAll(specification, pageRequest);
+        Page<Mall> dataList = mallRepository.findAll(specification, pageRequest);
 
         return ResponseEntity.ok(
                 CustMallsPagingResponseDto.builder()
-                        .totalCount(mallList.getTotalElements())
-                        .page(mallList.getNumber())
-                        .pageSize(mallList.getSize())
+                        .totalCount(dataList.getTotalElements())
+                        .page(dataList.getNumber())
+                        .pageSize(dataList.getSize())
                         .malls(
-                                mallList.stream()
+                                dataList.stream()
                                         .map(mall -> CustMallsPagingResponseDto.Malls.builder()
                                                 .mallId(mall.getMallId())
                                                 .mallName(mall.getMallName())
@@ -100,17 +104,17 @@ public class MallController {
         Cust cust = custRepository.findById(custId)
                 .orElseThrow(() -> new NotFoundException("C01", messageSource.getMessage("C01")));
 
-        Mall mall = Mall.builder()
+        Mall newData = Mall.builder()
                 .mallName(request.getMallName())
                 .mallKey(UUID.randomUUID().toString())
                 .cust(cust)
                 .build();
 
-        mallRepository.save(mall);
+        mallRepository.save(newData);
 
         return ResponseEntity.created(selfLink).body(
                 MallRegisterResponseDto.builder()
-                        .mallId(mall.getMallId())
+                        .mallId(newData.getMallId())
                         .build()
         );
     }
