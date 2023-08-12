@@ -42,7 +42,7 @@ public class OauthController {
                 .loginPassword(passwordEncoder.encode(request.getLoginPassword()))
                 .userName(request.getUserName())
                 .userPhone(request.getUserPhone())
-                .clientKey(UUID.randomUUID().toString())
+                .custKey(UUID.randomUUID().toString())
                 .build();
 
         custRepository.save(newCust);

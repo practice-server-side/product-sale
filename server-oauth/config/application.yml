@@ -21,7 +21,6 @@ spring:
     port: 6379
   session:
     store-type: redis
-    creation: always
 
   jackson:
     time-zone: Asia/Seoul

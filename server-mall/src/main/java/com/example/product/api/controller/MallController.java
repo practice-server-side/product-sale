@@ -34,7 +34,7 @@ public class MallController {
     private final MessageSourceAccessor messageSource;
 
     /**
-     * 고객 몰 리스트 조회
+     * 회원 몰 리스트 조회
      */
     @GetMapping
     public ResponseEntity<?> custMalls(@ModelAttribute CustMallsPagingRequestDto request) {
@@ -73,8 +73,6 @@ public class MallController {
         Mall mall = mallRepository.findById(mallId)
                 .orElseThrow(() -> new NotFoundException("M01", messageSource.getMessage("M01")));
 
-        log.info("currentCust : " + currentCust);
-
         if (!mall.getCust().getCustId().equals(currentCust.getCustId())) {
             throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
         }
@@ -84,7 +82,7 @@ public class MallController {
                         .mallId(mall.getMallId())
                         .mallName(mall.getMallName())
                         .mallKey(mall.getMallKey())
-                        .clientKey(mall.getCust().getClientKey())
+                        .custKey(mall.getCust().getCustKey())
                         .build()
         );
     }

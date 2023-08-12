@@ -11,5 +11,5 @@ public class MallInfoResponseDto {
     private Long mallId;
     private String mallName;
     private String mallKey;
-    private String clientKey;
+    private String custKey;
 }
