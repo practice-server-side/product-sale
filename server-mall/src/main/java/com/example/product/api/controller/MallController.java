@@ -1,5 +1,7 @@
 package com.example.product.api.controller;
 
+import com.example.product.annotation.User;
+import com.example.product.dto.CurrentCust;
 import com.example.product.exception.NotFoundException;
 import com.example.product.exception.UnAuthorizationException;
 import com.example.product.api.dto.*;
@@ -9,6 +11,7 @@ import com.example.product.api.model.specification.MallsSpecification;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.api.repository.MallRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +25,7 @@ import java.net.URI;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/server-mall/v1/mall")
@@ -64,13 +68,15 @@ public class MallController {
      */
     @GetMapping("/{mallId}")
     public ResponseEntity<?> mallInfo(
-            @RequestParam("custId") Long custId,
+            @User CurrentCust currentCust,
             @PathVariable("mallId") Long mallId) {
 
         Mall mall = mallRepository.findById(mallId)
                 .orElseThrow(() -> new NotFoundException("M01", messageSource.getMessage("M01")));
 
-        if (!mall.getCust().getCustId().equals(custId)) {
+        log.info("currentCust : " + currentCust);
+
+        if (!mall.getCust().getCustId().equals(currentCust.getCustId())) {
             throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
         }
 

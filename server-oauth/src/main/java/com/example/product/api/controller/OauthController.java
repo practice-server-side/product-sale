@@ -1,5 +1,6 @@
 package com.example.product.api.controller;
 
+import com.example.product.annotation.User;
 import com.example.product.api.dto.CustRegisterRequestDto;
 import com.example.product.api.dto.LoginRequestDto;
 import com.example.product.api.dto.LoginResponseDto;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -30,35 +33,11 @@ public class OauthController {
     private final ApiAuthenticationProvider authenticationManager;
     private final CustRepository custRepository;
     private final PasswordEncoder passwordEncoder;
-
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(
-            @RequestBody LoginRequestDto request,
-            HttpSession session,
-            HttpServletRequest httpRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getLoginPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        CurrentCust sessionValue = CurrentCust.builder()
-                .custId((Long) authentication.getCredentials())
-                .build();
-
-        session.setAttribute(httpRequest.changeSessionId(), sessionValue);
-        session.setMaxInactiveInterval(1800);
-
-        return ResponseEntity.ok(
-                LoginResponseDto.builder()
-                        .session(session.getId())
-                        .build()
-        );
-    }
-
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @PostMapping("/join")
-    public ResponseEntity<?> custRegister(@RequestBody CustRegisterRequestDto request) {
+    public ResponseEntity<?> custRegister(
+            @RequestBody CustRegisterRequestDto request) {
 
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
 
@@ -73,6 +52,35 @@ public class OauthController {
         custRepository.save(newCust);
 
         return ResponseEntity.created(selfLink).build();
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(
+            @User CurrentCust cust,
+            @RequestBody LoginRequestDto request,
+            HttpSession session,
+            HttpServletRequest servletRequest) {
+
+        System.out.println("cust = " + cust);
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getLoginPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        CurrentCust sessionValue = CurrentCust.builder()
+                .custId((Long) authentication.getCredentials())
+                .build();
+
+        session.setAttribute(servletRequest.changeSessionId(), sessionValue);
+        session.setMaxInactiveInterval(1800);
+
+        return ResponseEntity.ok(
+                LoginResponseDto.builder()
+                        .session(session.getId())
+                        .build()
+        );
     }
 
 }
