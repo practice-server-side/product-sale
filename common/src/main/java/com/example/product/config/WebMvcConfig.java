@@ -77,7 +77,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new CurrentUserAnnotationResolver(custSessionRepository));
+        argumentResolvers.add(new CurrentCustConfig(custSessionRepository));
     }
 
 }

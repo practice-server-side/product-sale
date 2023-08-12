@@ -1,20 +1,15 @@
 package com.example.product.api.controller;
 
-import com.example.product.annotation.User;
 import com.example.product.api.dto.CustRegisterRequestDto;
 import com.example.product.api.dto.LoginRequestDto;
 import com.example.product.api.dto.LoginResponseDto;
 import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.config.ApiAuthenticationProvider;
-import com.example.product.dto.CurrentCust;
 import com.example.product.model.CustSession;
 import com.example.product.repository.CustSessionRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

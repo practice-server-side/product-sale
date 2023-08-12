@@ -1,7 +1,6 @@
 package com.example.product.api.controller;
 
-import com.example.product.annotation.User;
-import com.example.product.dto.CurrentCust;
+import com.example.product.annotation.CurrentCust;
 import com.example.product.exception.NotFoundException;
 import com.example.product.exception.UnAuthorizationException;
 import com.example.product.api.dto.*;
@@ -68,7 +67,7 @@ public class MallController {
      */
     @GetMapping("/{mallId}")
     public ResponseEntity<?> mallInfo(
-            @User CurrentCust currentCust,
+            @CurrentCust com.example.product.dto.CurrentCust currentCust,
             @PathVariable("mallId") Long mallId) {
 
         Mall mall = mallRepository.findById(mallId)

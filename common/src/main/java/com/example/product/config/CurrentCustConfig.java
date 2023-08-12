@@ -1,7 +1,6 @@
 package com.example.product.config;
 
-import com.example.product.annotation.User;
-import com.example.product.dto.CurrentCust;
+import com.example.product.annotation.CurrentCust;
 import com.example.product.model.CustSession;
 import com.example.product.repository.CustSessionRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +15,14 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Configuration
-public class CurrentUserAnnotationResolver implements HandlerMethodArgumentResolver {
+public class CurrentCustConfig implements HandlerMethodArgumentResolver {
 
     private final CustSessionRepository custSessionRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(CurrentCust.class) &&
-                parameter.hasParameterAnnotation(User.class);
+        return parameter.getParameterType().isAssignableFrom(com.example.product.dto.CurrentCust.class) &&
+                parameter.hasParameterAnnotation(CurrentCust.class);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class CurrentUserAnnotationResolver implements HandlerMethodArgumentResol
                     .orElse(CustSession.builder().build());
         }
 
-        return CurrentCust.builder()
+        return com.example.product.dto.CurrentCust.builder()
                 .custId(custSession.getCustId())
                 .build();
     }
