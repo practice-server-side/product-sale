@@ -5,5 +5,4 @@ import lombok.Data;
 
 @Data
 public class CustMallsPagingRequestDto extends RequestListDto {
-    private Long custId;
 }
