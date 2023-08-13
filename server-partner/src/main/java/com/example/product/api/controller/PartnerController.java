@@ -4,7 +4,6 @@ import com.example.product.api.dto.ApplyPartnerRequestDto;
 import com.example.product.api.model.ApplyPartnerHistory;
 import com.example.product.api.repository.ApplyPartnerHistoryRepository;
 import com.example.product.api.repository.MallRepository;
-import com.example.product.api.repository.PartnerRepository;
 import com.example.product.exception.NotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +20,14 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RequestMapping("/api/server-partner/v1/patner")
 public class PartnerController {
-    private final PartnerRepository partnerRepository;
     private final MallRepository mallRepository;
     private final ApplyPartnerHistoryRepository applyPartnerHistoryRepository;
 
+    /**
+     * 파트너 신청하기
+     * @param request
+     * @return
+     */
     @PostMapping
     public ResponseEntity<?> applyPartner(@RequestBody @Valid ApplyPartnerRequestDto request) {
 

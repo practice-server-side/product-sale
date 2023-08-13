@@ -38,8 +38,12 @@ public class MallController {
     private final CustRepository custRepository;
     private final MessageSourceAccessor messageSource;
 
+
     /**
      * 회원 몰 리스트 조회
+     * @param currentCust
+     * @param request
+     * @return
      */
     @GetMapping
     public ResponseEntity<?> custMalls(
@@ -69,8 +73,12 @@ public class MallController {
         );
     }
 
+
     /**
      * 몰 상세 조회
+     * @param currentCust
+     * @param mallId
+     * @return
      */
     @GetMapping("/{mallId}")
     public ResponseEntity<?> mallInfo(
@@ -94,8 +102,12 @@ public class MallController {
         );
     }
 
+
     /**
      * 몰 등록
+     * @param currentCust
+     * @param request
+     * @return
      */
     @PostMapping
     public ResponseEntity<?> mallRegister(
