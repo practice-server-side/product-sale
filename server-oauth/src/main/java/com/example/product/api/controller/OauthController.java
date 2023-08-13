@@ -31,11 +31,20 @@ public class OauthController {
     private final CustRepository custRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * 회원 정보 상세 조회
+     * @return
+     */
     @GetMapping("/information")
     public ResponseEntity<?> information() {
         return ResponseEntity.ok("");
     }
 
+    /**
+     * 회원 가입
+     * @param request
+     * @return
+     */
     @PostMapping("/join")
     public ResponseEntity<?> join(
             @RequestBody CustRegisterRequestDto request) {
@@ -56,6 +65,11 @@ public class OauthController {
     }
 
 
+    /**
+     * 로그인
+     * @param request
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody LoginRequestDto request) {

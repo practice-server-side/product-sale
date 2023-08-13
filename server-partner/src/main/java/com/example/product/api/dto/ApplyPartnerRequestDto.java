@@ -9,5 +9,5 @@ public class ApplyPartnerRequestDto {
     @Min(1)
     private Long mallId;
     @NotBlank
-    private String patnerName;
+    private String partnerName;
 }

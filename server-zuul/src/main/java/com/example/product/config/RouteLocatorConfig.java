@@ -15,6 +15,8 @@ public class RouteLocatorConfig {
                         .uri("http://localhost:8000"))
                 .route("server-oauth", p -> p.path("/api/server-oauth/v1/**")
                         .uri("http://localhost:8001"))
+                .route("server-partner", p -> p.path("/api/server-partner/v1/**")
+                        .uri("http://localhost:8003"))
                 .build();
     }
 
