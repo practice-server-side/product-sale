@@ -19,7 +19,7 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/server-mall/v1/patner")
+@RequestMapping("/api/server-partner/v1/patner")
 public class PartnerController {
     private final PartnerRepository partnerRepository;
     private final MallRepository mallRepository;
@@ -31,16 +31,18 @@ public class PartnerController {
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
 
         if (!mallRepository.existsById(request.getMallId())) {
-            throw  new NotFoundException("", "");
+            throw  new NotFoundException("", ""); //TODO : 예외 메세지 추가
         }
 
         ApplyPartnerHistory newData = ApplyPartnerHistory.builder()
                 .mallId(request.getMallId())
-                .partnerName(request.getPatnerName())
+                .partnerName(request.getPartnerName())
                 .build();
 
         applyPartnerHistoryRepository.save(newData);
 
         return ResponseEntity.created(selfLink).build();
     }
+
+
 }
