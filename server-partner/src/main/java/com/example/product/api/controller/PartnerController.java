@@ -4,6 +4,7 @@ import com.example.product.api.dto.ApplyPartnerRequestDto;
 import com.example.product.api.model.ApplyPartnerHistory;
 import com.example.product.api.repository.ApplyPartnerHistoryRepository;
 import com.example.product.api.repository.MallRepository;
+import com.example.product.enums.DecidePartnerType;
 import com.example.product.exception.NotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,7 @@ public class PartnerController {
                 .partnerName(request.getPartnerName())
                 .partnerPhone(request.getPartnerPhone())
                 .partnerRepresentative(request.getPartnerRepresentative())
+                .decidePartnerType(DecidePartnerType.WAIT)
                 .build();
 
         applyPartnerHistoryRepository.save(newData);
