@@ -43,6 +43,8 @@ public class PartnerController {
         ApplyPartnerHistory newData = ApplyPartnerHistory.builder()
                 .mallId(request.getMallId())
                 .partnerName(request.getPartnerName())
+                .partnerPhone(request.getPartnerPhone())
+                .partnerRepresentative(request.getPartnerRepresentative())
                 .build();
 
         applyPartnerHistoryRepository.save(newData);
