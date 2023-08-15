@@ -8,6 +8,12 @@ import lombok.Data;
 public class ApplyPartnerRequestDto {
     @Min(1)
     private Long mallId;
+
     @NotBlank
     private String partnerName;
+
+    @NotBlank
+    private String partnerPhone;
+
+    private String partnerRepresentative;
 }

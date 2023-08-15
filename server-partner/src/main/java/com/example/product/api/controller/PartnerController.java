@@ -7,6 +7,7 @@ import com.example.product.api.repository.MallRepository;
 import com.example.product.exception.NotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,8 @@ import java.net.URI;
 public class PartnerController {
     private final MallRepository mallRepository;
     private final ApplyPartnerHistoryRepository applyPartnerHistoryRepository;
+    private final MessageSourceAccessor messageSource;
+
 
     /**
      * 파트너 신청하기
@@ -34,12 +37,14 @@ public class PartnerController {
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
 
         if (!mallRepository.existsById(request.getMallId())) {
-            throw  new NotFoundException("", ""); //TODO : 예외 메세지 추가
+            throw  new NotFoundException("M01", messageSource.getMessage("M01"));
         }
 
         ApplyPartnerHistory newData = ApplyPartnerHistory.builder()
                 .mallId(request.getMallId())
                 .partnerName(request.getPartnerName())
+                .partnerPhone(request.getPartnerPhone())
+                .partnerRepresentative(request.getPartnerRepresentative())
                 .build();
 
         applyPartnerHistoryRepository.save(newData);

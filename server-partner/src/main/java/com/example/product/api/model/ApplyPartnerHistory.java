@@ -24,4 +24,9 @@ public class ApplyPartnerHistory extends CommonDate {
     private Long mallId;
 
     private String partnerName;
+
+    private String partnerPhone;
+
+    private String partnerRepresentative;
+
 }
