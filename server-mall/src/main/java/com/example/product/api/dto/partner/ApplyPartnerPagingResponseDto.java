@@ -1,6 +1,7 @@
 package com.example.product.api.dto.partner;
 
 import com.example.product.api.dto.ResponseListDto;
+import com.example.product.enums.DecidePartnerType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -24,5 +25,7 @@ public class ApplyPartnerPagingResponseDto extends ResponseListDto {
         private Long applyPartnerHistoryId;
         private String partnerName;
         private LocalDateTime registerDate;
+        private DecidePartnerType decidePartnerType;
+        private String decideReason;
     }
 }

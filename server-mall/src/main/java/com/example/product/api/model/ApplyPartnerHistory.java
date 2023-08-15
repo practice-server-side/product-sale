@@ -1,11 +1,9 @@
 package com.example.product.api.model;
 
 
+import com.example.product.enums.DecidePartnerType;
 import com.example.product.model.CommonDate;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +19,22 @@ public class ApplyPartnerHistory extends CommonDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applyPartnerHistoryId;
 
+    @Column(nullable = false)
     private Long mallId;
 
+    @Column(nullable = false)
     private String partnerName;
 
+    @Column(nullable = false)
     private String partnerPhone;
 
+    @Column
     private String partnerRepresentative;
+
+    @Column(columnDefinition = "ENUM('WAIT', 'ACCEPT', 'REFUSE') NOT NULL")
+    @Enumerated(EnumType.STRING)
+    private DecidePartnerType decidePartnerType;
+
+    @Column
+    private String decideReason;
 }

@@ -4,6 +4,7 @@ package com.example.product.api.controller;
 import com.example.product.annotation.Cust;
 import com.example.product.api.dto.partner.ApplyPartnerPagingRequestDto;
 import com.example.product.api.dto.partner.ApplyPartnerPagingResponseDto;
+import com.example.product.api.dto.partner.DecidePartnerRequestDto;
 import com.example.product.api.model.ApplyPartnerHistory;
 import com.example.product.api.model.Mall;
 import com.example.product.api.model.Partner;
@@ -12,6 +13,7 @@ import com.example.product.api.repository.ApplyPartnerHistoryRepository;
 import com.example.product.api.repository.MallRepository;
 import com.example.product.api.repository.PartnerRepository;
 import com.example.product.dto.CurrentCust;
+import com.example.product.enums.DecidePartnerType;
 import com.example.product.exception.NotFoundException;
 import com.example.product.exception.UnAuthorizationException;
 import jakarta.validation.Valid;
@@ -61,6 +63,8 @@ public class PatnerController {
                                         .map(data -> ApplyPartnerPagingResponseDto.Partners.builder()
                                                 .applyPartnerHistoryId(data.getApplyPartnerHistoryId())
                                                 .partnerName(data.getPartnerName())
+                                                .decidePartnerType(data.getDecidePartnerType())
+                                                .decideReason(data.getDecideReason())
                                                 .build())
                                         .collect(Collectors.toList())
                         )
@@ -70,17 +74,18 @@ public class PatnerController {
     }
 
     /**
-     * 파트너 수락하기
+     * 파트너 결정하기
      * @param applyPartnerHistoryId
      * @param currentCust
      * @return
      */
     @PostMapping("/{applyPartnerHistoryId}")
-    public ResponseEntity<?> acceptPartner(
+    public ResponseEntity<?> decidePartner(
             @PathVariable("applyPartnerHistoryId") Long applyPartnerHistoryId,
+            @RequestBody @Valid DecidePartnerRequestDto request,
             @Cust CurrentCust currentCust) {
 
-        ApplyPartnerHistory applyPartnerHistory = applyPartnerHistoryRepository.findById(applyPartnerHistoryId)
+        ApplyPartnerHistory applyPartnerHistory = applyPartnerHistoryRepository.findByApplyPartnerHistoryIdAndDecidePartnerType(applyPartnerHistoryId, DecidePartnerType.WAIT)
                 .orElseThrow(() -> new NotFoundException("", messageSource.getMessage("")));
 
         Mall mall = mallRepository.findById(applyPartnerHistory.getMallId())
@@ -90,16 +95,27 @@ public class PatnerController {
             throw new UnAuthorizationException("", messageSource.getMessage(""));
         }
 
-        Partner newData = Partner.builder()
-                .partnerName(applyPartnerHistory.getPartnerName())
-                .partnerPhone(applyPartnerHistory.getPartnerPhone())
-                .partnerRepresentative(applyPartnerHistory.getPartnerRepresentative())
-                .mall(mall)
-                .build();
 
-        partnerRepository.save(newData);
+        if (request.getDecidePartnerType().equals(DecidePartnerType.ACCEPT)) {
+
+            Partner newData = Partner.builder()
+                    .partnerName(applyPartnerHistory.getPartnerName())
+                    .partnerPhone(applyPartnerHistory.getPartnerPhone())
+                    .partnerRepresentative(applyPartnerHistory.getPartnerRepresentative())
+                    .mall(mall)
+                    .build();
+
+            partnerRepository.save(newData);
+
+        }
+
+        applyPartnerHistory.setDecidePartnerType(request.getDecidePartnerType());
+        applyPartnerHistory.setDecideReason(request.getDecideReason());
+        applyPartnerHistoryRepository.save(applyPartnerHistory);
+
 
         return ResponseEntity.noContent().build();
     }
+
 
 }
