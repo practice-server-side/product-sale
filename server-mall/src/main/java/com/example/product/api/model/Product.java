@@ -21,7 +21,7 @@ public class Product extends CommonDate {
     private String productName;
 
     @Column
-    private String productPrice;
+    private Integer productPrice;
 
     @ManyToOne
     @JoinColumn(name = "partnerId")

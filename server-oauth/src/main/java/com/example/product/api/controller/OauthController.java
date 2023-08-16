@@ -54,8 +54,8 @@ public class OauthController {
         Cust newData = Cust.builder()
                 .loginId(request.getLoginId())
                 .loginPassword(passwordEncoder.encode(request.getLoginPassword()))
-                .userName(request.getUserName())
-                .userPhone(request.getUserPhone())
+                .custName(request.getUserName())
+                .custPhone(request.getUserPhone())
                 .custKey(UUID.randomUUID().toString())
                 .build();
 

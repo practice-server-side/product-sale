@@ -86,13 +86,13 @@ public class PatnerController {
             @Cust CurrentCust currentCust) {
 
         ApplyPartnerHistory applyPartnerHistory = applyPartnerHistoryRepository.findByApplyPartnerHistoryIdAndDecidePartnerType(applyPartnerHistoryId, DecidePartnerType.WAIT)
-                .orElseThrow(() -> new NotFoundException("", messageSource.getMessage("")));
+                .orElseThrow(() -> new NotFoundException("P01", messageSource.getMessage("P01")));
 
         Mall mall = mallRepository.findById(applyPartnerHistory.getMallId())
-                .orElseThrow(() -> new NotFoundException("", messageSource.getMessage("")));
+                .orElseThrow(() -> new NotFoundException("M01", messageSource.getMessage("M01")));
 
         if (!Objects.equals(mall.getCust().getCustId(), currentCust.getCustId())) {
-            throw new UnAuthorizationException("", messageSource.getMessage(""));
+            throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
         }
 
 
