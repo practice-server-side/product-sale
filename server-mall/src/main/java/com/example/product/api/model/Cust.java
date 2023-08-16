@@ -21,10 +21,10 @@ public class Cust extends CommonDate {
     private String loginPassword;
 
     @Column
-    private String userName;
+    private String custName;
 
     @Column
-    private String userPhone;
+    private String custPhone;
 
     @Column
     private String custKey;
