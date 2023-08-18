@@ -17,7 +17,7 @@ public class MallMemberGrade extends CommonDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gradeNo;
 
-    @Column
+    @Column(nullable = false)
     private String gradeName;
 
     @Column
