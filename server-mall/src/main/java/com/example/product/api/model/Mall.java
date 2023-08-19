@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @Builder
@@ -17,14 +19,16 @@ public class Mall extends CommonDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mallId;
 
-    @Column
+    @Column(nullable = false)
     private String mallName;
 
-    @Column
+    @Column(nullable = false)
     private String mallKey;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "custId")
+    @JoinColumn(name = "custId", nullable = false)
     private Cust cust;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Partner> partnerList;
 }

@@ -16,12 +16,12 @@ public class Mall extends CommonDate {
     @Id
     private Long mallId;
 
-    @Column
+    @Column(nullable = false)
     private String mallName;
 
-    @Column
+    @Column(nullable = false)
     private String mallKey;
 
-    @Column
+    @Column(nullable = false)
     private Long custId;
 }

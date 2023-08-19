@@ -14,7 +14,7 @@ public interface MallRepository extends JpaRepository<Mall, Long> {
     Page<Mall> findAll(Specification<Mall> specification, Pageable pageable);
 
     @Override
-    @EntityGraph(attributePaths = {"cust"})
+    @EntityGraph(attributePaths = {"cust", "partnerList"})
     Optional<Mall> findById(Long mallId);
 
 }

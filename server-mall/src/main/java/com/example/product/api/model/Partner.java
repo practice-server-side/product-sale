@@ -15,10 +15,10 @@ public class Partner extends CommonDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long partnerId;
 
-    @Column
+    @Column(nullable = false)
     private String partnerName;
 
-    @Column
+    @Column(nullable = false)
     private String partnerPhone;
 
     @Column

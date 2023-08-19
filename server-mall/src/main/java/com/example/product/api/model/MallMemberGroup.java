@@ -17,7 +17,7 @@ public class MallMemberGroup extends CommonDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long groupNo;
 
-    @Column
+    @Column(nullable = false)
     private String groupName;
 
     @ManyToOne(fetch = FetchType.LAZY)

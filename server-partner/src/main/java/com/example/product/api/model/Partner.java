@@ -16,16 +16,16 @@ public class Partner extends CommonDate {
     @Id
     private Long partnerId;
 
-    @Column
+    @Column(nullable = false)
     private String partnerName;
 
-    @Column
+    @Column(nullable = false)
     private String partnerPhone;
 
     @Column
     private String partnerRepresentative;
 
     @ManyToOne
-    @JoinColumn(name = "mallId")
+    @JoinColumn(name = "mallId", nullable = false)
     private Mall mall;
 }

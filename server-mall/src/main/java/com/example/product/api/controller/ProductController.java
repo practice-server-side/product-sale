@@ -1,10 +1,12 @@
 package com.example.product.api.controller;
 
 import com.example.product.annotation.Cust;
-import com.example.product.api.dto.product.ProductRegisterRequestDto;
+import com.example.product.api.dto.product.ProductDecideRequestDto;
+import com.example.product.api.model.ApplyProductHistory;
 import com.example.product.api.model.Mall;
 import com.example.product.api.model.Partner;
 import com.example.product.api.model.Product;
+import com.example.product.api.repository.ApplyProductHistoryRepository;
 import com.example.product.api.repository.MallRepository;
 import com.example.product.api.repository.PartnerRepository;
 import com.example.product.api.repository.ProductRepository;
@@ -30,14 +32,14 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final MallRepository mallRepository;
     private final MessageSourceAccessor messageSource;
-    private final PartnerRepository partnerRepository;
+    private final ApplyProductHistoryRepository applyProductHistoryRepository;
 
     /**
      * 파트너사 상품 등록
      */
     @PostMapping
-    public ResponseEntity<?> registerProduct(
-            @RequestBody @Valid ProductRegisterRequestDto request,
+    public ResponseEntity<?> decideProduct(
+            @RequestBody @Valid ProductDecideRequestDto request,
             @Cust CurrentCust currentCust) {
 
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
@@ -49,18 +51,19 @@ public class ProductController {
             throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
         }
 
-        Partner partner = partnerRepository.findById(request.getPartnerId())
-                .orElseThrow(() -> new NotFoundException("", messageSource.getMessage("")));
+        List<ApplyProductHistory> applyProductHistoryList = applyProductHistoryRepository.findByApplyProductHistoryIdIn(request.getApplyProductHitoryIds());
 
-        if (!Objects.equals(partner.getMall().getMallId(), mall.getMallId())) {
-            throw new UnAuthorizationException("", messageSource.getMessage(""));
+        if(applyProductHistoryList.stream().anyMatch(applyProductHistory -> !mall.getPartnerList().contains(applyProductHistory.getPartner()))){
+            throw new UnAuthorizationException("", ""); //요청 값의 등록요청번호는 당신의 몰 파트너사의 등록요청이 아닙니다.
         }
 
-        List<Product> newDataList = request.getRegisterPriductList().stream()
-                .map(requestProduct -> Product.builder()
-                        .productName(requestProduct.getProductName())
-                        .productPrice(requestProduct.getProductPrice())
-                        .partner(partner)
+        List<Product> newDataList = applyProductHistoryList.stream()
+                .map(applyProductHistory -> Product.builder()
+                        .productName(applyProductHistory.getProductName())
+                        .productPrice(applyProductHistory.getProductPrice())
+                        .imageUrl1(applyProductHistory.getImageUrl1())
+                        .imageUrl2(applyProductHistory.getImageUrl2())
+                        .partner(applyProductHistory.getPartner())
                         .build())
                 .collect(Collectors.toList());
 

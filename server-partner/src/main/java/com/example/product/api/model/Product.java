@@ -16,13 +16,19 @@ public class Product extends CommonDate {
     @Id
     private Long productId;
 
-    @Column
+    @Column(nullable = false)
     private String productName;
 
-    @Column
+    @Column(nullable = false)
     private String productPrice;
 
+    @Column(nullable = false)
+    private String imageUrl1;
+
+    @Column
+    private String imageUrl2;
+
     @ManyToOne
-    @JoinColumn(name = "partnerId")
+    @JoinColumn(name = "partnerId", nullable = false)
     private Partner partner;
 }
