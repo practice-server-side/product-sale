@@ -11,6 +11,7 @@ import com.example.product.api.repository.MallRepository;
 import com.example.product.api.repository.PartnerRepository;
 import com.example.product.api.repository.ProductRepository;
 import com.example.product.dto.CurrentCust;
+import com.example.product.enums.DecideProductType;
 import com.example.product.exception.NotFoundException;
 import com.example.product.exception.UnAuthorizationException;
 import jakarta.validation.Valid;
@@ -45,29 +46,43 @@ public class ProductController {
         URI selfLink = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().toUriString());
 
         Mall mall = mallRepository.findById(request.getMallId())
-                .orElseThrow(() -> new NotFoundException("", ""));
+                .orElseThrow(() -> new NotFoundException("M01", messageSource.getMessage("M01")));
+
 
         if (!Objects.equals(mall.getCust().getCustId(), currentCust.getCustId())) {
             throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
         }
 
-        List<ApplyProductHistory> applyProductHistoryList = applyProductHistoryRepository.findByApplyProductHistoryIdIn(request.getApplyProductHitoryIds());
+        List<ApplyProductHistory> applyProductHistoryList = applyProductHistoryRepository.findByApplyProductHistoryIdInAndDecideProductType(request.getApplyProductHitoryIds(), DecideProductType.WAIT);
 
         if(applyProductHistoryList.stream().anyMatch(applyProductHistory -> !mall.getPartnerList().contains(applyProductHistory.getPartner()))){
-            throw new UnAuthorizationException("", ""); //요청 값의 등록요청번호는 당신의 몰 파트너사의 등록요청이 아닙니다.
+            throw new UnAuthorizationException("M03", messageSource.getMessage("M03"));
         }
 
-        List<Product> newDataList = applyProductHistoryList.stream()
-                .map(applyProductHistory -> Product.builder()
-                        .productName(applyProductHistory.getProductName())
-                        .productPrice(applyProductHistory.getProductPrice())
-                        .imageUrl1(applyProductHistory.getImageUrl1())
-                        .imageUrl2(applyProductHistory.getImageUrl2())
-                        .partner(applyProductHistory.getPartner())
-                        .build())
-                .collect(Collectors.toList());
+        if (applyProductHistoryList.size() == 0) {
+            throw new NotFoundException("M04", messageSource.getMessage("M04"));
+        }
 
-        productRepository.saveAll(newDataList);
+        if (request.getDecideProductType().equals(DecideProductType.ACCEPT)) {
+            List<Product> newDataList = applyProductHistoryList.stream()
+                    .map(applyProductHistory -> Product.builder()
+                            .productName(applyProductHistory.getProductName())
+                            .productPrice(applyProductHistory.getProductPrice())
+                            .imageUrl1(applyProductHistory.getImageUrl1())
+                            .imageUrl2(applyProductHistory.getImageUrl2())
+                            .partner(applyProductHistory.getPartner())
+                            .build())
+                    .collect(Collectors.toList());
+
+            productRepository.saveAll(newDataList);
+
+        }
+
+        applyProductHistoryList.forEach(
+                applyProductHistory -> applyProductHistory.setDecideProductType(request.getDecideProductType())
+        );
+
+        applyProductHistoryRepository.saveAll(applyProductHistoryList);
 
         return ResponseEntity.created(selfLink).build();
     }
