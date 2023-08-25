@@ -26,7 +26,7 @@ public class Product extends CommonDate {
     @Column(nullable = false)
     private String imageUrl1;
 
-    @Column(nullable = false)
+    @Column
     private String imageUrl2;
 
     @ManyToOne(fetch = FetchType.LAZY)

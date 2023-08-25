@@ -29,6 +29,6 @@ public class Mall extends CommonDate {
     @JoinColumn(name = "custId", nullable = false)
     private Cust cust;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "mall", fetch = FetchType.LAZY)
     private List<Partner> partnerList;
 }

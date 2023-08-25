@@ -36,7 +36,7 @@ public class ProductController {
     private final ApplyProductHistoryRepository applyProductHistoryRepository;
 
     /**
-     * 파트너사 상품 등록
+     * 파트너사 상품 결정
      */
     @PostMapping
     public ResponseEntity<?> decideProduct(
