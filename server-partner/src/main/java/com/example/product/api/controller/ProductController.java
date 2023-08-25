@@ -6,6 +6,7 @@ import com.example.product.api.model.Partner;
 import com.example.product.api.repository.ApplyProductHistoryRepository;
 import com.example.product.api.repository.PartnerRepository;
 import com.example.product.api.repository.ProductRepository;
+import com.example.product.enums.DecideProductType;
 import com.example.product.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class ProductController {
     private final ApplyProductHistoryRepository applyProductHistoryRepository;
 
     /**
-     *  파트너가 상품 등록 신청
+     *  파트너사 상품 등록 신청
      */
     @PostMapping
     public ResponseEntity<?> applyProduct(
@@ -41,7 +42,8 @@ public class ProductController {
                 .productPrice(request.getProductPrice())
                 .imageUrl1(request.getImageUrl1())
                 .imageUrl2(request.getImageUrl2())
-                .partnerId(partner)
+                .decideProductType(DecideProductType.WAIT)
+                .partner(partner)
                 .build();
 
         applyProductHistoryRepository.save(newData);

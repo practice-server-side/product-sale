@@ -1,4 +1,7 @@
 package com.example.product.enums;
 
-public class DecideProductType {
+public enum DecideProductType {
+    WAIT,
+    ACCEPT,
+    REFUSE
 }

@@ -14,6 +14,5 @@ public class ProductDecideRequestDto {
     private Long mallId;
     @NotEmpty
     private List<Long> applyProductHitoryIds;
-    @NotBlank
     private DecideProductType decideProductType;
 }

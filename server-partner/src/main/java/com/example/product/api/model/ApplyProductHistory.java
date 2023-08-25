@@ -1,5 +1,6 @@
 package com.example.product.api.model;
 
+import com.example.product.enums.DecideProductType;
 import com.example.product.model.CommonDate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,11 @@ public class ApplyProductHistory extends CommonDate {
     @Column
     private String imageUrl2;
 
-    @ManyToOne
-    private Partner partnerId;
+    @Column(columnDefinition = "enum('WAIT','ACCEPT','REFUSE')")
+    @Enumerated(EnumType.STRING)
+    private DecideProductType decideProductType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Partner partner;
 }
