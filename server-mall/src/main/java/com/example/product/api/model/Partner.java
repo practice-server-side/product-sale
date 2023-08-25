@@ -4,7 +4,6 @@ import com.example.product.model.CommonDate;
 import jakarta.persistence.*;
 import lombok.*;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Builder
