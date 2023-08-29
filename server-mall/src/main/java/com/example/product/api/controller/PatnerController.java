@@ -49,6 +49,13 @@ public class PatnerController {
             @Cust CurrentCust currentCust,
             @Valid ApplyPartnerPagingRequestDto request) {
 
+        Mall currentCustHaveMall = mallRepository.findById(request.getMallId())
+                .orElseThrow(() -> new NotFoundException("M01", messageSource.getMessage("M01")));
+
+        if (!currentCustHaveMall.getCust().getCustId().equals(currentCust.getCustId())) {
+            throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
+        }
+
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getPageSize(), Sort.Direction.DESC, request.getSort());
         Specification<ApplyPartnerHistory> specification = ApplyPartnerSpecification.getApplyPartnerSpecification(currentCust, request);
         Page<ApplyPartnerHistory> dataList = applyPartnerHistoryRepository.findAll(specification, pageRequest);
@@ -58,9 +65,9 @@ public class PatnerController {
                         .totalCount(dataList.getTotalElements())
                         .page(dataList.getNumber())
                         .pageSize(dataList.getSize())
-                        .partners(
+                        .applyPartnerList(
                                 dataList.stream()
-                                        .map(data -> ApplyPartnerPagingResponseDto.Partners.builder()
+                                        .map(data -> ApplyPartnerPagingResponseDto.ApplyPartner.builder()
                                                 .applyPartnerHistoryId(data.getApplyPartnerHistoryId())
                                                 .partnerName(data.getPartnerName())
                                                 .decidePartnerType(data.getDecidePartnerType())
@@ -98,7 +105,7 @@ public class PatnerController {
 
         if (request.getDecidePartnerType().equals(DecidePartnerType.ACCEPT)) {
 
-            Partner newData = Partner.builder()
+            Partner newData = com.example.product.api.model.Partner.builder()
                     .partnerName(applyPartnerHistory.getPartnerName())
                     .partnerPhone(applyPartnerHistory.getPartnerPhone())
                     .partnerRepresentative(applyPartnerHistory.getPartnerRepresentative())

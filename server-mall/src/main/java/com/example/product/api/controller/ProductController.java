@@ -1,11 +1,12 @@
 package com.example.product.api.controller;
 
 import com.example.product.annotation.Cust;
+import com.example.product.api.dto.product.ApplyProductPagingRequestDto;
+import com.example.product.api.dto.partner.ApplyPartnerPagingResponseDto;
+import com.example.product.api.dto.product.ApplyProductPagingResponseDto;
 import com.example.product.api.dto.product.ProductDecideRequestDto;
-import com.example.product.api.model.ApplyProductHistory;
-import com.example.product.api.model.Mall;
-import com.example.product.api.model.Partner;
-import com.example.product.api.model.Product;
+import com.example.product.api.model.*;
+import com.example.product.api.model.specification.ApplyProductSpecification;
 import com.example.product.api.repository.ApplyProductHistoryRepository;
 import com.example.product.api.repository.MallRepository;
 import com.example.product.api.repository.PartnerRepository;
@@ -17,6 +18,10 @@ import com.example.product.exception.UnAuthorizationException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,8 +37,55 @@ import java.util.stream.Collectors;
 public class ProductController {
     private final ProductRepository productRepository;
     private final MallRepository mallRepository;
+    private final PartnerRepository partnerRepository;
     private final MessageSourceAccessor messageSource;
     private final ApplyProductHistoryRepository applyProductHistoryRepository;
+
+    /**
+     * 파트너 상품 신청 리스트 조회
+     *
+     * @param currentCust
+     * @param request
+     * @return
+     */
+    @GetMapping
+    public ResponseEntity<?> getApplyProducts(
+            @Cust CurrentCust currentCust,
+            @Valid ApplyProductPagingRequestDto request) {
+
+        Partner currentCustHavePartner = partnerRepository.findById(request.getPartnerId())
+                .orElseThrow(() -> new NotFoundException("P02", messageSource.getMessage("P02")));
+
+        if (!currentCustHavePartner.getMall().getCust().getCustId().equals(currentCust.getCustId())) {
+            throw new UnAuthorizationException("M02", messageSource.getMessage("M02"));
+        }
+
+        PageRequest pageRequest = PageRequest.of(request.getPage(), request.getPageSize(), Sort.Direction.DESC, request.getSort());
+        Specification<ApplyProductHistory> specification = ApplyProductSpecification.getApplyProductSpecification(currentCust, request);
+        Page<ApplyProductHistory> dataList = applyProductHistoryRepository.findAll(specification, pageRequest);
+
+        return ResponseEntity.ok(
+                ApplyProductPagingResponseDto.builder()
+                        .totalCount(dataList.getTotalElements())
+                        .page(dataList.getNumber())
+                        .pageSize(dataList.getSize())
+                        .applyProductList(
+                                dataList.stream()
+                                        .map(data -> ApplyProductPagingResponseDto.ApplyProduct.builder()
+                                                .applyProductHistoryId(data.getApplyProductHistoryId())
+                                                .productName(data.getProductName())
+                                                .registerDate(data.getRegisterDate())
+                                                .decideProductType(data.getDecideProductType())
+                                                .imageUrl1(data.getImageUrl1())
+                                                .imageUrl2(data.getImageUrl2())
+                                                .productPrice(data.getProductPrice())
+                                                .build())
+                                        .collect(Collectors.toList())
+                        )
+                        .build()
+        );
+    }
+
 
     /**
      * 파트너사 상품 결정
@@ -55,7 +107,7 @@ public class ProductController {
 
         List<ApplyProductHistory> applyProductHistoryList = applyProductHistoryRepository.findByApplyProductHistoryIdInAndDecideProductType(request.getApplyProductHitoryIds(), DecideProductType.WAIT);
 
-        if(applyProductHistoryList.stream().anyMatch(applyProductHistory -> !mall.getPartnerList().contains(applyProductHistory.getPartner()))){
+        if (applyProductHistoryList.stream().anyMatch(applyProductHistory -> !mall.getPartnerList().contains(applyProductHistory.getPartner()))) {
             throw new UnAuthorizationException("M03", messageSource.getMessage("M03"));
         }
 

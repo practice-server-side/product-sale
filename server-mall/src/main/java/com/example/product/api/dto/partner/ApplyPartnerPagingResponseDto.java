@@ -15,13 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 public class ApplyPartnerPagingResponseDto extends ResponseListDto {
 
-    private List<Partners> partners;
+    private List<ApplyPartner> applyPartnerList;
 
     @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Partners {
+    public static class ApplyPartner {
         private Long applyPartnerHistoryId;
         private String partnerName;
         private LocalDateTime registerDate;
