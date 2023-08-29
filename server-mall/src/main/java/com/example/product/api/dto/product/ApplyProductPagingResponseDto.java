@@ -1,7 +1,6 @@
 package com.example.product.api.dto.product;
 
 import com.example.product.api.dto.ResponseListDto;
-import com.example.product.enums.DecidePartnerType;
 import com.example.product.enums.DecideProductType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

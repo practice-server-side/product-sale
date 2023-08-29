@@ -1,7 +1,9 @@
 package com.example.product.api.model;
 
 import com.example.product.model.CommonDate;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

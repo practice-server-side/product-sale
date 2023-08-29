@@ -2,10 +2,12 @@ package com.example.product.api.controller;
 
 import com.example.product.annotation.Cust;
 import com.example.product.api.dto.product.ApplyProductPagingRequestDto;
-import com.example.product.api.dto.partner.ApplyPartnerPagingResponseDto;
 import com.example.product.api.dto.product.ApplyProductPagingResponseDto;
 import com.example.product.api.dto.product.ProductDecideRequestDto;
-import com.example.product.api.model.*;
+import com.example.product.api.model.ApplyProductHistory;
+import com.example.product.api.model.Mall;
+import com.example.product.api.model.Partner;
+import com.example.product.api.model.Product;
 import com.example.product.api.model.specification.ApplyProductSpecification;
 import com.example.product.api.repository.ApplyProductHistoryRepository;
 import com.example.product.api.repository.MallRepository;
