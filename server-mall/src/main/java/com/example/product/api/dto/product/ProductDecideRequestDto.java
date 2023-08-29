@@ -2,7 +2,6 @@ package com.example.product.api.dto.product;
 
 import com.example.product.enums.DecideProductType;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 

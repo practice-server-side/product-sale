@@ -2,7 +2,10 @@ package com.example.product.api.model;
 
 import com.example.product.model.CommonDate;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
