@@ -1,0 +1,47 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: server-oauth
+  datasource:
+    url: jdbc:mysql://localhost:3306/PRODUCT_SALE?useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      show-sql: true
+      format_sql: true
+  redis:
+    host: 127.0.0.1
+    password: 1234
+    port: 6379
+  session:
+    store-type: redis
+
+  jackson:
+    time-zone: Asia/Seoul
+    serialization:
+      write-dates-as-timestamps: false
+  messages:
+    basename: classpath:/messages/message
+    encoding: UTF-8
+    cache-duration:
+      seconds: -1
+
+eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 0 # 하트비트 전송 주기.(디폴트 30초)
+    lease-renewal-interval-in-seconds: 30 # 마지막 하트비트에서부터 10초 동안 하트비트가 수신되지 않으면 서비스 등록 해제.(디폴트 90초)
+    preferIpAddress: true # IP 주소를 Server에 등록
+  client:
+    registerWithEureka: true # Eureka Server에 등록여부
+    fetchRegistry: true # true : 30초 단위로 로컬에 캐싱. false : 무조건 레지스트리에서 조회.
+    registry-fetch-interval-seconds: 10 # 서비스 목록 캐싱 갱신시간(초)
+    disable-delta: true # 캐싱 업데이트시 변경된 부분만 업데이트 할 것인지 여부. false로 지정하면 대역폭 낭비.
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8080/eureka
+      enabled: true

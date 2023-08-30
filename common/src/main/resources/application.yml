@@ -1,0 +1,12 @@
+spring:
+  messages:
+    basename: classpath:/messages/message
+    encoding: UTF-8
+    cache-duration:
+      seconds: -1
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/PRODUCT_SALE?useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
