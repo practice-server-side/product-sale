@@ -19,6 +19,7 @@ import com.example.product.exception.NotFoundException;
 import com.example.product.exception.UnAuthorizationException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -140,4 +141,20 @@ public class ProductController {
 
         return ResponseEntity.created(selfLink).build();
     }
+
+
+    /**
+     * 협력 파트너 상품 리스트 조회
+     * @param partnerId
+     * @param currentCust
+     * @return
+     */
+    @GetMapping("/{partnerId}")
+    public ResponseEntity<?> getProducts(
+            @PathVariable("partnerId") Long partnerId,
+            @Cust CurrentCust currentCust) {
+
+        return ResponseEntity.ok("");
+    }
+
 }
