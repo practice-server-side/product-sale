@@ -3,7 +3,7 @@ package com.example.product.api.dto;
 import lombok.Data;
 
 @Data
-public class LoginRequestDto {
+public class CustLoginRequestDto {
     private String loginId;
     private String loginPassword;
 }

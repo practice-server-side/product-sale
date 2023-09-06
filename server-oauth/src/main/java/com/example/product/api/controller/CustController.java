@@ -1,8 +1,8 @@
 package com.example.product.api.controller;
 
 import com.example.product.api.dto.CustRegisterRequestDto;
-import com.example.product.api.dto.LoginRequestDto;
-import com.example.product.api.dto.LoginResponseDto;
+import com.example.product.api.dto.CustLoginRequestDto;
+import com.example.product.api.dto.CustLoginResponseDto;
 import com.example.product.api.model.Cust;
 import com.example.product.api.repository.CustRepository;
 import com.example.product.config.ApiAuthenticationProvider;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/api/server-oauth/v1")
-public class OauthController {
+public class CustController {
     private final ApiAuthenticationProvider authenticationManager;
     private final CustSessionRepository custSessionRepository;
     private final CustRepository custRepository;
@@ -72,7 +72,7 @@ public class OauthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(
-            @RequestBody LoginRequestDto request) {
+            @RequestBody CustLoginRequestDto request) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getLoginPassword()));
@@ -87,7 +87,7 @@ public class OauthController {
         custSessionRepository.save(newData);
 
         return ResponseEntity.ok(
-                LoginResponseDto.builder()
+                CustLoginResponseDto.builder()
                         .session(newData.getSessionId())
                         .build()
         );
