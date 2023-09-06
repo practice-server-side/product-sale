@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponseDto {
+public class MallMemberLoginResponseDto {
     private String session;
 }
